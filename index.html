@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gradient Generator</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+       document.addEventListener("DOMContentLoaded", function(){
+            var primaryInput = document.getElementById('primary');
+            var secondaryInput = document.getElementById('secondary');
+
+            primaryInput.addEventListener("input", function(){
+                var primaryDiv = document.getElementById('firstColor');
+                primaryDiv.style.backgroundColor = primaryInput.value;
+                updateBackground();
+            })
+            secondaryInput.addEventListener("input", function(){
+                var secondaryDiv = document.getElementById('secondColor'); 
+                secondaryDiv.style.backgroundColor = secondaryInput.value;
+                updateBackground();
+            })
+
+            var directionDivs = document.getElementsByClassName("direction");
+            for (var i = 0; i < directionDivs.length; i++) {
+                (function (i) {
+                    directionDivs[i].addEventListener('click', function() {
+                        updateDirection(i);
+                    }, false);
+                })(i);
+            }
+
+            var direction = "to right";
+            function updateDirection(num){
+                switch (num){
+                    case 0:
+                        direction = "to top";
+                        break;
+                    case 1:
+                        direction = "to top right";
+                        break;
+                    case 2:
+                        direction = "to right";
+                        break;
+                    case 3:
+                        direction = "to bottom right";
+                        break;
+                    case 4:
+                        direction = "to bottom";
+                        break;
+                    case 5:
+                        direction = "to bottom left";
+                        break;
+                    case 6:
+                        direction = "to left";
+                        break;
+                    case 7:
+                        direction = "to top left";
+                        break;
+                    default:
+                        direction = "to right";
+                }
+                updateBackground();
+            }
+            function updateBackground(){
+                var gradientType = "linear-gradient";
+                var outputCode = "background: " + gradientType + "(" + direction + "," + primaryInput.value + "," + secondaryInput.value + ")";
+                document.body.style.backgroundImage = gradientType + "(" + direction + "," + primaryInput.value + "," + secondaryInput.value + ")";
+                document.getElementById('output').value = outputCode;
+            }
+            updateBackground();
+        });
+    </script>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="console">
+            <div class="colorSelection">
+                <div id="firstColor">
+                    <input type="color" id="primary" value="#51e5ff">
+                </div>
+                <div id="secondColor">
+                    <input type="color" id="secondary" value="#7d0ab3">
+                </div>
+            </div>
+            <div class="directionSelection">
+                <div class="direction" id="up">⬆️</div>
+                <div class="direction" id="ur">↗️</div>
+                <div class="direction" id="r">➡️</div>
+                <div class="direction" id="dr">↘️</div>
+                <div class="direction" id="d">⬇️</div>
+                <div class="direction" id="dl">↙️</div>
+                <div class="direction" id="l">⬅️</div>
+                <div class="direction" id="ul">↖️</div>
+            </div>
+            <div class="outputCode">
+                <textarea  type="text" id="output" rows="2" readonly></textarea>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
